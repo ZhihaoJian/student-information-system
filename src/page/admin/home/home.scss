@@ -1,0 +1,50 @@
+.home__wrapper {
+    .user-info {
+        margin-top: 2rem;
+        display: flex;
+        .information {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            margin-left: 50px;
+            .say-hello {
+                font-size: 25px;
+                font-weight: bold;
+            }
+            .user-job-desc {
+                color: #848484;
+                font-size: 20px;
+            }
+        }
+    }
+    .to-do-list__wrapper {
+        margin-top: 4rem;
+        .to-do-list__title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+    }
+}
+
+.events {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.events .ant-badge-status {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}
+
+.notes-month {
+    text-align: center;
+    font-size: 28px;
+}
+
+.notes-month section {
+    font-size: 28px;
+}

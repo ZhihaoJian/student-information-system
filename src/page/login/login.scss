@@ -1,0 +1,19 @@
+.login__wrapper {
+    margin-top: 100px;
+    .login-title {
+        font-size: 30px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .card {
+        width: 600px;
+        text-align: center;
+        position: relative;
+        left: 50%;
+        margin-left: -300px;
+    }
+    .login-btn {
+        width: 100%;
+    }
+}

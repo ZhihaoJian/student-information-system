@@ -1,0 +1,115 @@
+hive 安装部署  
+1.从http://www.apache.org/dyn/closer.cgi/hive/获取镜像地址且选择版本下载
+2.解压安装hive        
+   sudo tar -xzvf apache-hive-*-bin.tar.gz
+3.设置Hive环境变量 
+    sudo vim /etc/profile
+    加入  export HIVE_HOME=/hive安装地址
+          export PATH=$PATH:$HIVE_HOME/bin
+    
+    使环境变量生效: source /etc/profile
+4.配置 Hive
+   1)cd $HIVE_HOME/conf
+   2)cp hive-env.sh.template hive-env.sh
+   3)cp hive-default.xml.template hive-site.xml
+   4)cp hive-log4j2.properties.template hive-log4j2.properties
+   5)cp hive-exec-log4j2.properties.template hive-exec-log4j2.properties
+
+5.创建HDFS目录（开启hadoop：start-all.sh）
+   hdfs dfs -mkdir -p /user/hive/warehouse
+   hdfs dfs -mkdir -p /user/hive/tmp
+   hdfs dfs -mkdir -p /user/hive/log
+   hdfs dfs -chmod g+w /user/hive/warehouse
+   hdfs dfs -chmod g+w /usr/hive/tmp
+   hdfs dfs -chmod g+w /usr/hive/log
+
+6.修改 hive-config.sh(位于$HIVE_HOME/bin)
+   sudo vim hive-config.sh
+   export JAVA_HOME=/usr/lib/jvm/java-7-oracle
+   export HIVE_HOME=/usr/local/apache-hive-1.1.0-bin
+   export HADOOP_HOME=/usr/local/hadoop-2.6.0
+
+7.修改 hive-site.xml(位于$HIVE_HOME/conf)  #尽量使用vim查询进行修改，行多
+   sudo vim hive-site.xml
+
+<property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:mysql://localhost:3306/hive</value>
+    <description>JDBC connect string for a JDBC metastore</description>
+</property>
+<property>
+    <name>javax.jdo.option.ConnectionDriverName</name>
+    <value>com.mysql.jdbc.Driver</value>
+    <description>Driver class name for a JDBC metastore</description>
+</property>
+<property>
+    <name>javax.jdo.option.ConnectionUserName</name>
+    <value>数据库用户名</value>
+    <description>Username to use against metastore database</description>
+</property>
+<property>
+    <name>javax.jdo.option.ConnectionPassword</name>
+    <value>数据库密码</value>
+    <description>password to use against metastore database</description>
+</property>
+
+#如果不配置下面的部分会产生错误
+<property>
+    <name>hive.exec.local.scratchdir</name>
+    <value>/usr/local/apache-hive-2.1.1-bin</value>
+    <description>Local scratch space for Hive jobs</description>
+  </property>
+<property>
+    <name>hive.downloaded.resources.dir</name>
+    <value>自定义目录</value>
+    <description>Temporary local directory for added resources in the remote file system.</description>
+</property>
+<property>
+    <name>hive.querylog.location</name>
+    <value>自定义目录</value>
+    <description>Location of Hive run time structured log file</description>
+</property>
+<property>
+   <name>hive.server2.logging.operation.log.location</name>
+    <value>自定义目录/operation_logs</value>
+    <description>Top level directory where operation logs are stored if logging functionality is enabled</description>
+</property>
+
+8.修改hive-log4j.properties
+    #vim hive-log4j.properties
+    hive.log.dir=自定义目录/log/
+
+9.创建数据库和用户
+    mysql> CREATE DATABASE hive; 
+    mysql> USE hive; 
+    mysql> CREATE USER 'hive'@'localhost' IDENTIFIED BY 'hive';
+    mysql> GRANT ALL ON hive.* TO 'hive'@'localhost' IDENTIFIED BY 'hive'; 
+    mysql> GRANT ALL ON hive.* TO 'hive'@'%' IDENTIFIED BY 'hive'; 
+    mysql> FLUSH PRIVILEGES; 
+    mysql> quit;
+
+10.数据库的初始化
+      schematool -initSchema -dbType mysql
+
+11.启动hive 
+     hive --service metastore
+     hive
+
+问题：  1.SSL问题
+    WARN：Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+,5.6.26+ and 5.7.6+ requirements SSL connection 
+must be established by default if explicitoption isn't set. For compliance with existing 
+applications not using SSL the verifyServerCertificate property is set to 'false'. You 
+need either to explicitly disable SSL by setting useSSL=false,or set useSSL=true and 
+provide truststore for server certificate verification.
+    解决方法:在hive-site.xml配置文件中javax.jdo.option.ConnectionURL 配置项的值上加上 useSSL=false。
+
+<property>
+    <name>javax.jdo.option.ConnectionURL</name>
+    <value>jdbc:mysql://localhost:3306/hive?createDatabaseIfNotExist=true&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;useSSL=false</value>
+    <description>JDBC connect string for a JDBC metastore</description>
+</property>
+
+
+
+
+   
