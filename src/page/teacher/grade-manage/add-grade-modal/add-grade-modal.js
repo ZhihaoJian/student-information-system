@@ -18,10 +18,11 @@ class AddGradeModal extends React.Component{
         const {getFieldDecorator} = this.props.form;
         return (
             <Modal title="新增成绩"
-                destroyOnClose={true}
-                visible={this.props.visible}
-                onOk={this.handleOk.bind(this)}
-                onCancel={this.handleCancel.bind(this)}
+                    destroyOnClose={true}
+                    visible={this.props.visible}
+                    maskClosable={false}
+                    onOk={this.handleOk.bind(this)}
+                    onCancel={this.handleCancel.bind(this)}
                 >
                     <Form>
                         <FormItem label='学号' >
@@ -33,15 +34,6 @@ class AddGradeModal extends React.Component{
                                 )
                             }
                         </FormItem>
-                        {/* <FormItem label='姓名' >
-                            {
-                                getFieldDecorator('name',{
-                                    rules:[{required:true}]                                        
-                                })(
-                                    <Input   placeholder='请输入学生姓名' />
-                                )
-                            }
-                        </FormItem> */}
                         <FormItem label='学年' >
                             {
                                 getFieldDecorator('year',{

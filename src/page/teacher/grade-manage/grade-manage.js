@@ -3,13 +3,13 @@ import {Breadcrumb,Table,Popconfirm,Row,Input,Col,Button} from 'antd';
 import {connect} from 'react-redux';
 import UpdateModal from './update-modal/update-modal';
 import AddGradeModal from './add-grade-modal/add-grade-modal';
-import {loadGradeInfo,deleteGrade,doUpdateGrade,addGrade} from '../../../redux/teacher/loadData.redux';
+import {loadGradeInfo,deleteGrade,doUpdateGrade,addGrade,resetReducersState} from '../../../redux/teacher/loadData.redux';
 import './grade-manage.scss';
 const Search = Input.Search;
 
 @connect(
     state=>state.teacherReducers,
-    {loadGradeInfo,deleteGrade,doUpdateGrade,addGrade}
+    {loadGradeInfo,deleteGrade,doUpdateGrade,addGrade,resetReducersState}
 )
 class GradeManage extends React.Component{
 
@@ -25,6 +25,10 @@ class GradeManage extends React.Component{
 
     componentDidMount(){
         this.props.loadGradeInfo();
+    }
+
+    componentWillUnmount(){
+        this.props.resetReducersState();
     }
 
     handleDeleteGrade(id) {

@@ -33,7 +33,7 @@ class AddPunishModal extends React.Component{
                                     )
                                 }
                             </FormItem>
-                            <FormItem label='姓名' >
+                            {/* <FormItem label='姓名' >
                                 {
                                     getFieldDecorator('name',{
                                         rules:[{required:true}]
@@ -41,7 +41,7 @@ class AddPunishModal extends React.Component{
                                         <Input   placeholder='请输入姓名' />
                                     )
                                 }
-                            </FormItem>
+                            </FormItem> */}
                             <FormItem label='处分日期' >
                                 {
                                     getFieldDecorator('punishDate',{

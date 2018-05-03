@@ -93,7 +93,7 @@ class RegisterUser extends React.Component {
                 render: (text, record) => {
                     return (
                         <Popconfirm title="确定要删除该用户?" onConfirm={this.handleDeleteUser.bind(this, record._id)} okText="确定" cancelText="不">
-                            <a >删除</a>
+                            <a data-role={record.role} >删除</a>
                         </Popconfirm>
                     )
                 }

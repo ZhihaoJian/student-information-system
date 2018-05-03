@@ -12,6 +12,13 @@ const Search = Input.Search;
 )
 class GradeInfo extends React.Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            keyword:''
+        }
+    }
+
     handleDeleteGrade(id) {
         this.props.deleteGrade(id);
     }
@@ -21,6 +28,7 @@ class GradeInfo extends React.Component {
     }
 
     handleSearch(value){
+        this.setState({keyword:value});
         this.props.loadGradeInfo(value);        
     }
 
@@ -84,6 +92,54 @@ class GradeInfo extends React.Component {
             }
         ]
 
+        const searchedColumns = [
+            {
+                title: '学年',
+                dataIndex: 'year',
+                align: 'center',
+                key: 'year'
+            },
+            {
+                title: '学期',
+                dataIndex: 'term',
+                align: 'center',
+                key: 'term'
+            },
+            {
+                title: '课程',
+                dataIndex: 'lesson',
+                align: 'center',
+                key: 'lesson'
+            },
+            {
+                title: '成绩',
+                dataIndex: 'grade',
+                align: 'center',
+                key: 'grade'
+            },
+            {
+                title: '绩点',
+                dataIndex: 'gradePoint',
+                align: 'center',
+                key: 'gradePoint'
+            },
+            {
+                title: '操作',
+                dataIndex: 'opera',
+                align: 'center',
+                key: 'opera',
+                render: (text, record) => {
+                    return (
+                        <span>
+                            <a style={{marginRight:10}} onClick={this.handleVisible.bind(this,record._id)} >修改</a>
+                            <Popconfirm title="确定要删除当前成绩?" onConfirm={this.handleDeleteGrade.bind(this, record._id)} okText="确定" cancelText="不">
+                                <a >删除</a>
+                            </Popconfirm>
+                        </span>
+                    )
+                }
+            }
+        ]
 
         return (
             <div className='grade-info__wrapper'>
@@ -105,11 +161,19 @@ class GradeInfo extends React.Component {
                         />
                     </Col>
                 </Row>
+                {
+                    this.state.keyword ? (
+                        <React.Fragment>
+                            <p>学号：{this.state.keyword}</p>
+                            <p>姓名：{this.props.studentName}</p>
+                        </React.Fragment>
+                    ):null
+                }
                 <Table
                     bordered
                     loading={this.props.loading}
                     rowKey={'_id'}
-                    columns={columns}
+                    columns={!!this.state.keyword ? searchedColumns : columns }
                     dataSource={this.props.data}
                 />
             </div>

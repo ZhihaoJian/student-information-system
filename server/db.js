@@ -13,7 +13,7 @@ const loginSchema = new Schema({
 
 const infomationSchema = new Schema({
     content: String,
-    createTime: { type: String, default: Date.now }
+    createTime: { type: Number, default: Date.now }
 })
 
 const gradeSchema = new Schema({

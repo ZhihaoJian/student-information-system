@@ -24,11 +24,11 @@ class Information extends React.Component{
                 </Breadcrumb>
                 <div style={{marginTop:20}} >
                     {
-                        this.props.data.map((item,index)=>(
+                        this.props.data && this.props.data.length > 0 ? this.props.data.map((item,index)=>(
                             <Card key={index} title={(new Date(Number.parseInt(item.createTime,10)).toDateString())} style={{marginTop:20}} >
                                 {item.content}
                             </Card>
-                        ))
+                        )):'暂无消息'
                     }
                 </div>
             </div>

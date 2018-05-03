@@ -37,8 +37,8 @@ class PublishSystemInfo extends React.Component{
 
     render(){
         const infoList = this.props.data;
-        return(            <div>
-
+        return(            
+            <div>
                 <Breadcrumb style={{marginBottom:20}} >
                         <Breadcrumb.Item>首页</Breadcrumb.Item>
                         <Breadcrumb.Item>管理</Breadcrumb.Item>

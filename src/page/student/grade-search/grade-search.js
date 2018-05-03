@@ -83,7 +83,6 @@ class GradeSearch extends React.Component{
                 <Row style={{ margin: '20px 0' }} >
                     <Col span={6}>
                         <Search
-                            style={{height:50}}
                             className='search-input'
                             placeholder="输入检索内容,暂不支持成绩、绩点检索"
                             onSearch={value => this.handleSearch(value)}

@@ -111,9 +111,12 @@ export function loadGradeInfo(loadKey) {
             .then(res => {
                 NProgress.done();                                
                 if (res.status === 200 && res.data.code === 0) {
-                    const data = res.data.data.data,
-                        studentName = res.data.data.studentName
-                    dispatch({type:LOAD_GRADE_SUCCESS, payload:data, studentName})
+                    const data = res.data.data;
+                    if(data.studentName){
+                        dispatch({type:LOAD_GRADE_SUCCESS, payload:data.data,msg:data.msg})
+                    }else{
+                        dispatch({type:LOAD_GRADE_SUCCESS, payload:data})                        
+                    }
                 } else {
                     dispatch({type:LOAD_GRADE_FAIL, msg:res.data.msg});
                     message.error(res.data.msg);

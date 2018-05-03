@@ -10,20 +10,25 @@ const LOADING = 'LOADING';
 const FIND_MAX_ID = 'FIND_MAX_ID';
 const ADD_NEW_USER_SUCCESS = 'ADD_NEW_USER_SUCCESS';
 const ADD_NEW_USER_FAIL = 'ADD_NEW_USER_FAIL';
+const DELETE_STUDENT_INFO_SUCCESS = 'DELETE_STUDENT_INFO_SUCCESS';
+const DELETE_STUDENT_INFO_FAIL = 'DELETE_STUDENT_INFO_FAIL';
 const initState = {
     data: [],
     msg: '',
     loading: false,
-    maxID:0
+    maxID:0,
+    studentName:''
 }
 
 export function loadData(state = initState, action) {
     switch (action.type) {
         case LOAD_DATA_SUCCESS:
         case ADD_NEW_USER_SUCCESS:
-            return { ...state, data: action.payload, loading: false }
+            return { ...state, data: action.payload, loading: false,studentName:action.studentName }
+        case DELETE_STUDENT_INFO_SUCCESS:
         case LOAD_DATA_FAIL:
         case DELETE_DATA_FAIL:
+        case DELETE_STUDENT_INFO_FAIL:
         case ADD_NEW_USER_FAIL:
             return { ...state, msg: action.msg, loading: false }
         case DELETE_DATA_SUCCESS:
@@ -76,6 +81,25 @@ export function loadStudentInfo(loadKey) {
     }
 }
 
+export function deleteStudentArchive(loadKey){
+    return dispatch => {
+        NProgress.start();
+        dispatch(loading(LOADING,true))
+        Axios.delete(`/admin/deleteStudentArchive?key=${loadKey}`)
+            .then(res=>{
+                if(res.status === 200 && res.data.code === 0){
+                    dispatch({type:DELETE_STUDENT_INFO_SUCCESS,msg:res.data.msg})
+                    message.success(res.data.msg);
+                }else{
+                    dispatch({type:DELETE_STUDENT_INFO_FAIL,msg:res.data.msg})
+                    message.error(res.data.msg);
+                }
+            })
+    }
+}
+
+
+
 export function loadRegistedUserInfo(loadKey) {
     return dispatch => {
         NProgress.start();        
@@ -117,7 +141,12 @@ export function loadGradeInfo(loadKey) {
             .then(res => {
                 NProgress.done();                                                
                 if (res.status === 200 && res.data.code === 0) {
-                    dispatch(success(LOAD_DATA_SUCCESS, res.data.data))
+                    const data = res.data.data;                    
+                    if(data.studentName){
+                        dispatch({type:LOAD_DATA_SUCCESS, payload:data.data,msg:data.msg})
+                    }else{
+                        dispatch({type:LOAD_DATA_SUCCESS, payload:data})                        
+                    }
                 } else {
                     dispatch(fail(LOAD_DATA_FAIL, res.data.msg));
                 }
