@@ -29,7 +29,7 @@ class AddPunishModal extends React.Component{
                                     getFieldDecorator('studentID',{
                                         rules:[{required:true}]
                                     })(
-                                        <Input size='large' placeholder='请输入学号' />
+                                        <Input  placeholder='请输入学号' />
                                     )
                                 }
                             </FormItem>
@@ -38,7 +38,7 @@ class AddPunishModal extends React.Component{
                                     getFieldDecorator('name',{
                                         rules:[{required:true}]
                                     })(
-                                        <Input size='large'  placeholder='请输入姓名' />
+                                        <Input   placeholder='请输入姓名' />
                                     )
                                 }
                             </FormItem>
@@ -47,7 +47,7 @@ class AddPunishModal extends React.Component{
                                     getFieldDecorator('punishDate',{
                                         rules:[{required:true}]
                                     })(
-                                        <DatePicker  placeholder="选择处分日期" size='large' />
+                                        <DatePicker  placeholder="选择处分日期"  />
                                     )   
                                 }
                             </FormItem>
@@ -56,7 +56,7 @@ class AddPunishModal extends React.Component{
                                     getFieldDecorator('punishDetail',{
                                         rules:[{required:true}]
                                     })(
-                                        <Input  size='large' placeholder='请输入处分详情' />
+                                        <Input   placeholder='请输入处分详情' />
                                     )
                                 }
                             </FormItem>
@@ -65,7 +65,7 @@ class AddPunishModal extends React.Component{
                                     getFieldDecorator('punishResult',{
                                         rules:[{required:true}]
                                     })(
-                                        <Input  size='large' />
+                                        <Input   />
                                     )
                                 }
                             </FormItem>

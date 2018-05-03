@@ -36,19 +36,26 @@ Router.post('/updateGrade',(req,res)=>{
 
 Router.post('/addGrade',(req,res)=>{
     const data = req.body.data;
-    gradeIns.findOne({studentID:data.studentID},(err,doc)=>{
+    studentArchiveIns.findOne({studentID:data.studentID},(err,doc)=>{
         if(err){
             return res.json({code:1,msg:'后端出错了'})
         }
         if(!doc){
-            return res.json({code:1,msg:'不存在该学生!请检查学生是否存在'});
+            return res.json({code:1,msg:'不存在该学生! 请检查该学生是否存在'})
         }else{
-            const newGrade = new gradeIns({...data});
-            newGrade.save(err=>{
+            gradeIns.findOne({studentID:data.studentID},(err,newDoc)=>{
                 if(err){
-                    return res.json({code:1,msg:err})
-                }else{
-                    return res.json({code:0,msg:'新增成功'});
+                    return res.json({code:1,msg:'后端出错了'})
+                }
+                else{
+                    const newGrade = new gradeIns({...data});
+                    newGrade.save(err=>{
+                        if(err){
+                            return res.json({code:1,msg:err})
+                        }else{
+                            return res.json({code:0,msg:'新增成功'});
+                        }
+                    })
                 }
             })
         }
@@ -105,11 +112,17 @@ Router.post('/updateMyInfo',(req,res)=>{
             return res.json({code:1,msg:'后端出错了'})
         }
         Object.assign(doc,data);
-        doc.save(err=>{
+        loginIns.findOneAndUpdate({id:userid},{name:doc.teacherName},(err,newDoc)=>{
             if(err){
-                return res.json({code:1,msg:'后端出错了'})                  
+                return res.json({code:1,msg:'后端出错了'})
             }
-            return res.json({code:0,data:new Array(doc)})
+            newDoc.save();
+            doc.save(err=>{
+                if (err) {
+                    return res.json({ code: 1, msg: '后端出错了!' });
+                }
+                return res.json({code:0,msg:'修改成功!'});
+            })
         })
     })
 })

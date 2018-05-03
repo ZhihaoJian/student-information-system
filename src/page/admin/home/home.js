@@ -1,7 +1,12 @@
 import React from 'react';
 import './home.scss';
+import {connect} from 'react-redux';
+
 import {Breadcrumb,Avatar,Calendar, Badge} from 'antd';
 
+@connect(
+  state=>state.login
+)
 class AdminHome extends React.Component{
 
     getListData(value) {
@@ -73,10 +78,10 @@ class AdminHome extends React.Component{
                     </Breadcrumb>
                     <div className='user-info' >
                         <div className='avatar' >
-                            <Avatar style={{width:100,height:100}} size='large' src='https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png' />
+                            <Avatar style={{width:100,height:100}}  src='https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png' />
                         </div>
                         <div className='information' >
-                            <div className='say-hello' >早安, 简智濠，祝你开心每一天!</div>
+                            <div className='say-hello' >早安, {this.props.name}，祝你开心每一天!</div>
                             <div className='user-job-desc'>前端开发工程师</div>
                         </div>
                     </div>

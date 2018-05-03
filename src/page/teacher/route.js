@@ -3,7 +3,7 @@ import React from 'react';
 import GradeManage from './grade-manage/grade-manage';
 import Information from './information/information';
 import PunishManage from './punish/punish';
-import UpdatePwd from './update-password/update-password' ;
+import UpdatePwd from '../../component/update-password/update-password';
 import Upload from '../../component/upload/upload';
 import UpdateMyInfo from './update-my-info/update-my-info';
 export default function teacherRoute(){

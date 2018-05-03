@@ -6,7 +6,7 @@ import GradeInfo from './grade-info/grade-info';
 import PunishInfo from './punish-info/punish-info';
 import TeacherInfo from './teacher-info/teacher-info';
 import Upload from '../../component/upload/upload';
-import UpdatePassword from './update-password/update-password';
+import UpdatePwd from '../../component/update-password/update-password';
 import PublishSystemInfo from './publish-system-info/publish-system-info' ;
 import AdminHome from './home/home';
 
@@ -20,7 +20,7 @@ export default function () {
             <Route path='/admin/punishInfo' component={PunishInfo} />
             <Route path='/admin/teacherInfo' component={TeacherInfo} />
             <Route path='/admin/upload' component={Upload} />
-            <Route path='/admin/updatePassword' component={UpdatePassword}/>
+            <Route path='/admin/updatePassword' component={UpdatePwd}/>
             <Route path='/admin/publishSystemInfo' component={PublishSystemInfo} />
         </Switch>
     )

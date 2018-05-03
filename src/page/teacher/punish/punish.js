@@ -128,16 +128,14 @@ class PunishManage extends React.Component{
                 <Row style={{ margin: '20px 0' }} >
                     <Col span={6}>
                         <Search
-                            style={{height:50}}
                             placeholder="输入学生学号检索"
                             onSearch={value => this.handleSearch(value)}
                         />
                     </Col>
                     <Col span={2} offset={16}>
                         <Button 
-                            size='large' 
                             type='primary' 
-                            style={{height:50,float:'right',overflow:'hidden'}}
+                            style={{float:'right',overflow:'hidden'}}
                             onClick={()=>this.setState({addPunishmentVisible:true})} >新增处分
                         </Button>
                     </Col>

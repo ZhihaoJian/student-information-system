@@ -18,7 +18,8 @@ class GradeManage extends React.Component{
         this.state = {
             visible:false,
             addGradeVisible:false,
-            data:[]
+            data:[],
+            keyword:''
         }
     }
 
@@ -28,9 +29,11 @@ class GradeManage extends React.Component{
 
     handleDeleteGrade(id) {
         this.props.deleteGrade(id);
+        this.props.loadGradeInfo();                
     }
 
     handleSearch(value){
+        this.setState({keyword:value});
         this.props.loadGradeInfo(value);        
     }
 
@@ -44,11 +47,13 @@ class GradeManage extends React.Component{
     handleUpdate(visible,newData){
         this.setState({visible});
         this.props.doUpdateGrade(newData);
+        this.props.loadGradeInfo();        
     }
 
     handleAddGrade(visible,data){
         this.setState({addGradeVisible:false});
         this.props.addGrade(data);
+        this.props.loadGradeInfo();
     }
 
     render(){
@@ -66,6 +71,55 @@ class GradeManage extends React.Component{
                 align: 'center',
                 key: 'name'
             },
+            {
+                title: '学年',
+                dataIndex: 'year',
+                align: 'center',
+                key: 'year'
+            },
+            {
+                title: '学期',
+                dataIndex: 'term',
+                align: 'center',
+                key: 'term'
+            },
+            {
+                title: '课程',
+                dataIndex: 'lesson',
+                align: 'center',
+                key: 'lesson'
+            },
+            {
+                title: '成绩',
+                dataIndex: 'grade',
+                align: 'center',
+                key: 'grade'
+            },
+            {
+                title: '绩点',
+                dataIndex: 'gradePoint',
+                align: 'center',
+                key: 'gradePoint'
+            },
+            {
+                title: '操作',
+                dataIndex: 'opera',
+                align: 'center',
+                key: 'opera',
+                render: (text, record) => {
+                    return (
+                        <span>
+                            <a style={{marginRight:10}} onClick={this.handleVisible.bind(this,record._id)} >修改</a>
+                            <Popconfirm title="确定要删除当前成绩?" onConfirm={this.handleDeleteGrade.bind(this, record._id)} okText="确定" cancelText="不">
+                                <a >删除</a>
+                            </Popconfirm>
+                        </span>
+                    )
+                }
+            }
+        ]
+
+        const searchedColumns = [
             {
                 title: '学年',
                 dataIndex: 'year',
@@ -135,18 +189,25 @@ class GradeManage extends React.Component{
                     </Col>
                     <Col span={2} offset={16}>
                         <Button 
-                            size='large' 
                             type='primary' 
-                            style={{height:50,float:'right',overflow:'hidden'}}
+                            style={{float:'right',overflow:'hidden'}}
                             onClick={()=>this.setState({addGradeVisible:true})} >新增成绩
                         </Button>
                     </Col>
                 </Row>
+                {
+                    this.state.keyword ? (
+                        <React.Fragment>
+                            <p>学号：{this.state.keyword}</p>
+                            <p>姓名：{this.props.studentName}</p>
+                        </React.Fragment>
+                    ):null
+                }
                 <Table
                     bordered
                     loading={this.props.loading}
                     rowKey={'_id'}
-                    columns={columns}
+                    columns={!!this.state.keyword ? searchedColumns : columns }
                     dataSource={this.props.data}
                 />
                 <UpdateModal 

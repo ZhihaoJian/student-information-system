@@ -2,6 +2,7 @@ import React from 'react';
 import { Row, Col, Form,Breadcrumb,Input ,Button,Select} from 'antd';
 import {connect} from 'react-redux';
 import {loadTeacherInfo,updateTeacherInfo,resetReducersState} from '../../../redux/teacher/loadData.redux';
+import './update-my-info.scss';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -35,48 +36,52 @@ class UpdateMyInfo extends React.Component{
     render(){
         const {getFieldDecorator} = this.props.form;
         const data = this.props.data;
+        const formItemLayout = {
+            labelCol:{span:3},
+            wrapperCol:{span:21}
+        }
         return data && data.length > 0 ? (
             <div className='teacher-info__wrapper'>
                 <Row>
                     <Col span={24}>
-                    <Breadcrumb >
-                        <Breadcrumb.Item>首页</Breadcrumb.Item>
-                        <Breadcrumb.Item>管理</Breadcrumb.Item>
-                        <Breadcrumb.Item>个人信息修改</Breadcrumb.Item>
-                    </Breadcrumb>
+                        <Breadcrumb >
+                            <Breadcrumb.Item>首页</Breadcrumb.Item>
+                            <Breadcrumb.Item>管理</Breadcrumb.Item>
+                            <Breadcrumb.Item>个人信息修改</Breadcrumb.Item>
+                        </Breadcrumb>
                     </Col>
-                    </Row>
-                <div style={{marginTop:20}} >
-                    <Form>
-                        <FormItem label='职工号'>
+                </Row>
+                <div className='teacher-info-form'>
+                    <Form  layout='horizontal'>
+                        <FormItem label='职工号' {...formItemLayout}>
                             {getFieldDecorator('teacherNum',{
                                 initialValue:data[0].teacherNum
                             })(
-                                <Input disabled size='large' />
+                                <Input disabled  />
                             )}
                         </FormItem>
-                        <FormItem label='姓名'>
+                        <FormItem label='姓名' {...formItemLayout}>
                             {getFieldDecorator('teacherName',{
                                 initialValue:data[0].teacherName
                             })(
-                                <Input size='large' placeholder='请输入您的姓名' />
+                                <Input  placeholder='请输入您的姓名' />
                             )}
                         </FormItem>
-                        <FormItem label='性别'>
+                        <FormItem label='性别' {...formItemLayout}>
                             {getFieldDecorator('gender',{
                                 initialValue:data[0].gender || '男'
                             })(
-                                <Select size='large' >
+                                <Select  >
                                     <Option value="male">男</Option>
                                     <Option value="female">女</Option>
                                 </Select>
                             )}
                         </FormItem>
-                        <FormItem label='所授专业'>
+                        <FormItem label='所授专业' {...formItemLayout}>
                             {getFieldDecorator('major',{
                                 initialValue:data[0].major
                             })(
-                                <Select placeholder='请选择您所授专业' size='large'>
+                                <Select placeholder='请选择您所授专业' >
                                     <Option value="电子信息科学与技术（应用电子、智能控制与机器人）">电子信息科学与技术（应用电子、智能控制与机器人）</Option>                                   
                                     <Option value="计算机科学与技术（网络工程、数字媒体技术）">计算机科学与技术（网络工程、数字媒体技术）</Option>                                   
                                     <Option value="软件工程（商业应用软件、移动互联软件）">软件工程（商业应用软件、移动互联软件）</Option>                                   
@@ -96,11 +101,11 @@ class UpdateMyInfo extends React.Component{
                                 </Select>
                             )}
                         </FormItem>
-                        <FormItem label='所属学院'>
+                        <FormItem label='所属学院' {...formItemLayout}>
                             {getFieldDecorator('department',{
                                 initialValue:data[0].department
                             })(
-                                <Select placeholder='请选择您所属的学院' size='large'>
+                                <Select placeholder='请选择您所属的学院' >
                                     <Option value="国际学院">国际学院</Option>                                   
                                     <Option value="会计学院">会计学院</Option>                                   
                                     <Option value="信息技术与工程学院">信息技术与工程学院</Option>                                   
@@ -116,7 +121,7 @@ class UpdateMyInfo extends React.Component{
                                 </Select>
                             )}
                         </FormItem>
-                        <FormItem label='联系方式'>
+                        <FormItem label='联系方式' {...formItemLayout}>
                             {getFieldDecorator('tel',{
                                 rules:[
                                     {   max:11,
@@ -125,10 +130,12 @@ class UpdateMyInfo extends React.Component{
                                 ],
                                 initialValue:data[0].tel
                             })(
-                                <Input size='large' type='tel' placeholder='请输入您的联系方式' />
+                                <Input  type='tel' placeholder='请输入您的联系方式' />
                             )}
                         </FormItem>
-                        <Button size='large' type='primary' onClick={this.handleUpdate.bind(this)} >保存</Button>
+                        <FormItem wrapperCol={{offset:3}} >
+                            <Button size='large'  type='primary' onClick={this.handleUpdate.bind(this)} >保存</Button>
+                        </FormItem>
                     </Form>
                 </div>
             </div>

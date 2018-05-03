@@ -1,6 +1,6 @@
 const express = require('express');
 const Router = express.Router();
-const {gradeIns,studentArchiveIns} = require('./db');
+const {gradeIns,studentArchiveIns,loginIns} = require('./db');
 
 Router.get('/myGrade',(req,res)=>{
     const userid = req.cookies.userid;
@@ -44,14 +44,23 @@ Router.post('/updateMyInfo',(req,res)=>{
     studentArchiveIns.findOneAndUpdate({studentID:userid}, data,(err, doc) => {
         console.log(doc);
         if (err) {
+            console.log(err)
             return res.json({ code: 1, msg: '后端出错了!' });
         } 
         Object.assign(doc,data);
-        doc.save(err=>{
-            if (err) {
-                return res.json({ code: 1, msg: '后端出错了!' });
+        loginIns.findOneAndUpdate({id:userid},{name:doc.realName},(err,newDoc)=>{
+            if(err){
+                return res.json({code:1,msg:'后端出错了'})
             }
-            return res.json({code:0,msg:'修改成功!'});
+            console.log(newDoc);
+            newDoc.save();
+            doc.save(err=>{
+                if (err) {
+                    console.log(err)
+                    return res.json({ code: 1, msg: '后端出错了!' });
+                }
+                return res.json({code:0,msg:'修改成功!'});
+            })
         })
     })
 })

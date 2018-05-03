@@ -113,19 +113,19 @@ export function updateMyInfo(info){
     })}
 }
 
-export function updatePwd(param) {
-    return dispatch => {
-        NProgress.start();
-        Axios.post('/admin/updatePwd', param)
-            .then(res => {
-                NProgress.done();
-                if (res.status === 200 && res.data.code === 0) {
-                    dispatch({ type: UPDATE_PWD_SUCCESS, msg: res.data.msg });
-                    message.success(res.data.msg);
-                } else {
-                    dispatch({ type: UPDATE_PWD_FAIL, msg: res.data.msg });
-                    message.error(res.data.msg);
-                }
-            })
-    }
-}
+// export function updatePwd(param) {
+//     return dispatch => {
+//         NProgress.start();
+//         Axios.post('/admin/updatePwd', param)
+//             .then(res => {
+//                 NProgress.done();
+//                 if (res.status === 200 && res.data.code === 0) {
+//                     dispatch({ type: UPDATE_PWD_SUCCESS, msg: res.data.msg });
+//                     message.success(res.data.msg);
+//                 } else {
+//                     dispatch({ type: UPDATE_PWD_FAIL, msg: res.data.msg });
+//                     message.error(res.data.msg);
+//                 }
+//             })
+//     }
+// }

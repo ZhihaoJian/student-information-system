@@ -34,8 +34,7 @@ Router.get('/loadRegistedUserInfo', (req, res) => {
 
 Router.delete('/deleteRegisteredUser', (req, res) => {
     const searchKey = req.query.key;
-    const filter = searchKey ? { _id: searchKey } : {};
-    loginIns.findOneAndRemove(filter, (err, doc) => {
+    loginIns.findOneAndRemove({ _id: searchKey }, (err, doc) => {
         if (err) {
             return res.json({ code: 1, msg: '后端出错了' });
         }
@@ -74,7 +73,14 @@ Router.get('/loadGradeInfo', (req, res) => {
         if (err) {
             return res.json({ code: 1, msg: '后端出错了' });
         } else {
-            return res.json({ code: 0, data: doc });
+            studentArchiveIns.findOne(filter,(err,newDoc)=>{
+                if(err){
+                    return res.json({code:1,msg:'后端出错了'})
+                }else{
+                    const newData = {data:doc,studentName:newDoc.realName}
+                    return res.json({ code: 0, data: newData });
+                }
+            })
         }
     })
 })

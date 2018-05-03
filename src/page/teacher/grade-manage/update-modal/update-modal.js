@@ -33,7 +33,7 @@ class UpdateModal extends React.Component{
                                     getFieldDecorator('studentID',{
                                         initialValue:data[0].studentID
                                     })(
-                                        <Input disabled size='large'/>
+                                        <Input disabled />
                                     )
                                 }
                             </FormItem>
@@ -42,7 +42,7 @@ class UpdateModal extends React.Component{
                                     getFieldDecorator('name',{
                                         initialValue:data[0].name
                                     })(
-                                        <Input disabled size='large' />
+                                        <Input disabled  />
                                     )
                                 }
                             </FormItem>
@@ -51,7 +51,7 @@ class UpdateModal extends React.Component{
                                     getFieldDecorator('year',{
                                         initialValue:data[0].year
                                     })(
-                                        <Input  size='large' />
+                                        <Input   />
                                     )
                                 }
                             </FormItem>
@@ -60,7 +60,7 @@ class UpdateModal extends React.Component{
                                     getFieldDecorator('term',{
                                         initialValue:data[0].term
                                     })(
-                                        <Input   size='large' />
+                                        <Input    />
                                     )
                                 }
                             </FormItem>
@@ -69,7 +69,7 @@ class UpdateModal extends React.Component{
                                     getFieldDecorator('lesson',{
                                         initialValue:data[0].lesson
                                     })(
-                                        <Input   size='large' />
+                                        <Input    />
                                     )
                                 }
                             </FormItem>
@@ -78,7 +78,7 @@ class UpdateModal extends React.Component{
                                     getFieldDecorator('grade',{
                                         initialValue:data[0].grade
                                     })(
-                                        <Input   size='large' />
+                                        <Input    />
                                     )
                                 }
                             </FormItem>
@@ -87,7 +87,7 @@ class UpdateModal extends React.Component{
                                     getFieldDecorator('gradePoint',{
                                         initialValue:data[0].gradePoint
                                     })(
-                                        <Input  size='large'  />
+                                        <Input    />
                                     )
                                 }
                             </FormItem>

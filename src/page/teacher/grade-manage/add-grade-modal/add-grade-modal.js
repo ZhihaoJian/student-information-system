@@ -29,7 +29,7 @@ class AddGradeModal extends React.Component{
                                 getFieldDecorator('studentID',{
                                     rules:[{required:true}]
                                 })(
-                                    <Input  size='large' placeholder='请输入学生学号'/>
+                                    <Input   placeholder='请输入学生学号'/>
                                 )
                             }
                         </FormItem>
@@ -38,7 +38,7 @@ class AddGradeModal extends React.Component{
                                 getFieldDecorator('name',{
                                     rules:[{required:true}]                                        
                                 })(
-                                    <Input  size='large' placeholder='请输入学生姓名' />
+                                    <Input   placeholder='请输入学生姓名' />
                                 )
                             }
                         </FormItem> */}
@@ -47,7 +47,7 @@ class AddGradeModal extends React.Component{
                                 getFieldDecorator('year',{
                                     rules:[{required:true}]
                                 })(
-                                    <Input  size='large' placeholder='请输入学年' />
+                                    <Input   placeholder='请输入学年' />
                                 )
                             }
                         </FormItem>
@@ -56,7 +56,7 @@ class AddGradeModal extends React.Component{
                                 getFieldDecorator('term',{
                                     rules:[{required:true}]                                        
                                 })(
-                                    <InputNumber size='large' min={1} max={2} />
+                                    <InputNumber  min={1} max={2} />
                                 )
                             }
                         </FormItem>
@@ -65,7 +65,7 @@ class AddGradeModal extends React.Component{
                                 getFieldDecorator('lesson',{
                                     rules:[{required:true}]
                                 })(
-                                    <Input size='large' placeholder='请输入课程名' />
+                                    <Input  placeholder='请输入课程名' />
                                 )
                             }
                         </FormItem>
@@ -74,7 +74,7 @@ class AddGradeModal extends React.Component{
                                 getFieldDecorator('grade',{
                                     rules:[{required:true}]
                                 })(
-                                    <InputNumber size='large' min={0} max={100} />
+                                    <InputNumber  min={0} max={100} />
                                 )
                             }
                         </FormItem>
@@ -83,7 +83,7 @@ class AddGradeModal extends React.Component{
                                 getFieldDecorator('gradePoint',{
                                     rules:[{required:true}]
                                 })(
-                                    <InputNumber size='large' min={0.0} max={5.0} />
+                                    <InputNumber  min={0.0} max={5.0} />
                                 )
                             }
                         </FormItem>

@@ -33,7 +33,7 @@ class UpdateModal extends React.Component{
                                     getFieldDecorator('studentID',{
                                         initialValue:data[0].studentID
                                     })(
-                                        <Input disabled size='large'/>
+                                        <Input disabled />
                                     )
                                 }
                             </FormItem>
@@ -42,7 +42,7 @@ class UpdateModal extends React.Component{
                                     getFieldDecorator('name',{
                                         initialValue:data[0].name
                                     })(
-                                        <Input disabled size='large' />
+                                        <Input disabled  />
                                     )
                                 }
                             </FormItem>
@@ -51,7 +51,7 @@ class UpdateModal extends React.Component{
                                     getFieldDecorator('punishDate',{
                                         initialValue: (new Date(Number.parseInt(data[0].punishDate,10)).toDateString()) 
                                     })(
-                                        <Input  size='large' />
+                                        <Input   />
                                     )
                                 }
                             </FormItem>
@@ -60,7 +60,7 @@ class UpdateModal extends React.Component{
                                     getFieldDecorator('punishDetail',{
                                         initialValue:data[0].punishDetail
                                     })(
-                                        <Input   size='large' />
+                                        <Input    />
                                     )
                                 }
                             </FormItem>
@@ -69,7 +69,7 @@ class UpdateModal extends React.Component{
                                     getFieldDecorator('punishResult',{
                                         initialValue:data[0].punishResult
                                     })(
-                                        <Input   size='large' />
+                                        <Input    />
                                     )
                                 }
                             </FormItem>

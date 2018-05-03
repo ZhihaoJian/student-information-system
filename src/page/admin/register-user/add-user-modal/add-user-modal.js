@@ -32,7 +32,7 @@ class AddUserModal extends React.Component{
                                 getFieldDecorator('id',{
                                     initialValue:this.props.maxID 
                                 })(
-                                    <Input  size='large' placeholder='输入账号' disabled/>
+                                    <Input   placeholder='输入账号' disabled/>
                                 )
                             }
                         </FormItem>
@@ -42,7 +42,7 @@ class AddUserModal extends React.Component{
                                     rules:[{required:true}],
                                     initialValue:'student'
                                 })(
-                                    <Select initialValue="student" allowClear>
+                                    <Select initialValue="student">
                                         <Option value="teacher">教师</Option>
                                         <Option value="student">学生</Option>
                                     </Select>
@@ -54,7 +54,7 @@ class AddUserModal extends React.Component{
                                 getFieldDecorator('password',{
                                     rules:[{required:true}]
                                 })(
-                                    <Input  size='large' placeholder='输入账号初始密码'/>
+                                    <Input   placeholder='输入账号初始密码'/>
                                 )
                             }
                         </FormItem>

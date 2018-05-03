@@ -10,7 +10,7 @@ const intiState = {
     msg:''
 }
 
-export function updatePwdReducer(state = intiState, action) {
+export function updatePwdReducers(state = intiState, action) {
     switch (action.type) {
         case UPDATE_PWD_SUCCESS:
             return { ...state, msg: action.msg,isUpdate:true }
@@ -29,7 +29,7 @@ export function updatePwd(param) {
         NProgress.start();
         Axios.post('/admin/updatePwd', param)
             .then(res => {
-                NProgress.stop();
+                NProgress.done();
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch({ type: UPDATE_PWD_SUCCESS, msg: res.data.msg });
                     message.success(res.data.msg);
@@ -41,6 +41,6 @@ export function updatePwd(param) {
     }
 }
 
-export function resetState(){
+export function reset(){
     return {type:RESET}
 }

@@ -30,11 +30,13 @@ class RegisterUser extends React.Component {
 
     handleDeleteUser(id) {
         this.props.deleteRegisterUser(id);
+        this.props.loadRegistedUserInfo();        
     }
 
     handleAddUser(visible,newData){
         this.setState({visible});
         this.props.addNewUser(newData);
+        this.props.loadRegistedUserInfo();        
     }
 
     render() {
@@ -110,7 +112,7 @@ class RegisterUser extends React.Component {
                     </Col>
                 </Row>
                 <Row style={{ margin: '12px 0' }}>
-                    <Col span={6} >
+                    <Col span={6}>
                         <Search
                             className='search-input'
                             placeholder="输入用户检索"
@@ -118,7 +120,7 @@ class RegisterUser extends React.Component {
                         />
                     </Col>
                     <Col span={2} offset={16} >
-                        <Button type='primary' onClick={()=>this.setState({visible:true})} style={{height:50,float:'right',overflow:'hidden'}} >新增用户</Button>
+                        <Button type='primary' onClick={()=>this.setState({visible:true})} style={{float:'right',overflow:'hidden'}} >新增用户</Button>
                     </Col>
                 </Row>
                 <Table

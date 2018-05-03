@@ -14,8 +14,7 @@ class PublishSystemInfo extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-          htmlContent: `<h1>Yankees, Peeking at the Red Sox, Will Soon Get an Eyeful</h1>
-                    <p>Whenever Girardi stole a glance, there was rarely any good news for the Yankees. While Girardi’s charges were clawing their way to a split of their four-game series against the formidable Indians, the Boston Red Sox were plowing past the rebuilding Chicago White Sox, sweeping four games at Fenway Park.</p>`,
+          htmlContent: ``,
           responseList: []
         }
         this.receiveHtml=this.receiveHtml.bind(this);
@@ -27,7 +26,7 @@ class PublishSystemInfo extends React.Component{
 
       
       receiveHtml(content) {
-        console.log("recieved HTML content", content);
+        this.setState({htmlContent:content});
         this.setState({responseList:[]});
       }
       
@@ -52,7 +51,7 @@ class PublishSystemInfo extends React.Component{
                     lang="en"
                 />
                 <div style={{marginTop:20}} >
-                    <Button type='primary' size='large' onClick={this.handlePublish.bind(this)} >发布</Button>
+                    <Button type='primary' size='large'  onClick={this.handlePublish.bind(this)} >发布</Button>
                 </div>
                 <div className='history-info' >
                     <h3>以下是您所发布的历史消息</h3>

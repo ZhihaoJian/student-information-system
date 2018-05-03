@@ -26,7 +26,8 @@ const RESET = 'RESET';
 const initState={
     msg:'',
     loading:false,
-    data:[]
+    data:[],
+    studentName:''
 }
 
 export function teacherReducers(state = initState,action){
@@ -51,7 +52,7 @@ export function teacherReducers(state = initState,action){
         case LOAD_TEACHER_INFO_FAIL:
             return {...state,msg:action.msg}
         case LOAD_GRADE_SUCCESS:
-            return {...state,loading:false,data:action.payload,msg:''}
+            return {...state,loading:false,data:action.payload,msg:'',studentName:action.studentName}
         case LOAD_GRADE_FAIL:
             return {...state,loading:false,msg:action.msg}
         case RESET:
@@ -110,7 +111,9 @@ export function loadGradeInfo(loadKey) {
             .then(res => {
                 NProgress.done();                                
                 if (res.status === 200 && res.data.code === 0) {
-                    dispatch({type:LOAD_GRADE_SUCCESS, payload:res.data.data})
+                    const data = res.data.data.data,
+                        studentName = res.data.data.studentName
+                    dispatch({type:LOAD_GRADE_SUCCESS, payload:data, studentName})
                 } else {
                     dispatch({type:LOAD_GRADE_FAIL, msg:res.data.msg});
                     message.error(res.data.msg);
