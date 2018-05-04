@@ -131,7 +131,7 @@ class GradeInfo extends React.Component {
                 render: (text, record) => {
                     return (
                         <span>
-                            <a style={{marginRight:10}} onClick={this.handleVisible.bind(this,record._id)} >修改</a>
+                            {/* <a style={{marginRight:10}} onClick={this.handleVisible.bind(this,record._id)} >修改</a> */}
                             <Popconfirm title="确定要删除当前成绩?" onConfirm={this.handleDeleteGrade.bind(this, record._id)} okText="确定" cancelText="不">
                                 <a >删除</a>
                             </Popconfirm>

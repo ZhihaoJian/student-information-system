@@ -44,7 +44,7 @@ export function loadCourseList(loadKey) {
 export function deleteCourse(loadKey) {
     return dispatch => {
         NProgress.start();
-        Axios.delete(`/ course / deleteCourse ? key = ${loadKey ? loadKey : ''} `)
+        Axios.delete(`/course/deleteCourse?key = ${loadKey ? loadKey : ''} `)
             .then(res => {
                 NProgress.done();
                 if (res.status === 200 && res.data.code === 0) {
@@ -61,7 +61,7 @@ export function deleteCourse(loadKey) {
 export function addCourse(data) {
     return dispatch => {
         NProgress.start();
-        Axios.post(`/ course / addCourse`, { data })
+        Axios.post(`/course/addCourse`, { data })
             .then(res => {
                 NProgress.done();
                 if (res.status === 200 && res.data.code === 0) {

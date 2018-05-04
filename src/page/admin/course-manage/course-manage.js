@@ -116,6 +116,7 @@ class CourseManage extends React.Component {
                     </Col>
                     <Col span={2} offset={16} >
                         <Button
+                            type='primary'
                             style={{ float: 'right', overflow: 'hidden' }}
                             onClick={() => this.setState({ addCourseModalVisible: true })} >新增课程</Button>
                     </Col>
