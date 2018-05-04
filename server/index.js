@@ -30,6 +30,7 @@ app.use(express.static(uploadPath))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded());
 app.use(cookieParser());
+app.disable('etag');
 app.use('/admin', adminRouter);
 app.use('/course', courseRouter);
 app.use('/teacher', teacherRouter);

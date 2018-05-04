@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import {message} from 'antd';
+import { message } from 'antd';
 import NProgress from 'nprogress';
 
 const LOAD_DATA_SUCCESS = 'LOAD_DATA_SUCCESS';
@@ -12,19 +12,21 @@ const ADD_NEW_USER_SUCCESS = 'ADD_NEW_USER_SUCCESS';
 const ADD_NEW_USER_FAIL = 'ADD_NEW_USER_FAIL';
 const DELETE_STUDENT_INFO_SUCCESS = 'DELETE_STUDENT_INFO_SUCCESS';
 const DELETE_STUDENT_INFO_FAIL = 'DELETE_STUDENT_INFO_FAIL';
+const LOAD_SPECIFIC_STUDENT_GRADE_SUCCESS = 'LOAD_SPECIFIC_STUDENT_GRADE_SUCCESS';
+const LOAD_SPECIFIC_STUDENT_GRADE_FAIL = 'LOAD_SPECIFIC_STUDENT_GRADE_FAIL';
 const initState = {
     data: [],
     msg: '',
     loading: false,
-    maxID:0,
-    studentName:''
+    maxID: 0,
+    studentName: ''
 }
 
 export function loadData(state = initState, action) {
     switch (action.type) {
         case LOAD_DATA_SUCCESS:
         case ADD_NEW_USER_SUCCESS:
-            return { ...state, data: action.payload, loading: false,studentName:action.studentName }
+            return { ...state, data: action.payload, }
         case DELETE_STUDENT_INFO_SUCCESS:
         case LOAD_DATA_FAIL:
         case DELETE_DATA_FAIL:
@@ -36,7 +38,11 @@ export function loadData(state = initState, action) {
         case LOADING:
             return { ...state, loading: action.loading }
         case FIND_MAX_ID:
-            return {...state, maxID:action.maxID}
+            return { ...state, maxID: action.maxID }
+        case LOAD_SPECIFIC_STUDENT_GRADE_SUCCESS:
+            return { ...state, data: action.payload, loading: false, studentName: action.studentName }
+        case LOAD_SPECIFIC_STUDENT_GRADE_FAIL:
+            return { ...state, msg: action.msg, data: action.payload, loading: false }
         default:
             return state;
     }
@@ -54,11 +60,11 @@ function loading(type, loading) {
     return { type, loading }
 }
 
-function findMaxId(data){
+function findMaxId(data) {
     let max = 0;
-    for(let i = 0;i<data.length;i++){
-        const cId = Number.parseInt(data[i].id,10);
-        if(cId > max){
+    for (let i = 0; i < data.length; i++) {
+        const cId = Number.parseInt(data[i].id, 10);
+        if (cId > max) {
             max = cId;
         }
     }
@@ -81,17 +87,17 @@ export function loadStudentInfo(loadKey) {
     }
 }
 
-export function deleteStudentArchive(loadKey){
+export function deleteStudentArchive(loadKey) {
     return dispatch => {
         NProgress.start();
-        dispatch(loading(LOADING,true))
+        dispatch(loading(LOADING, true))
         Axios.delete(`/admin/deleteStudentArchive?key=${loadKey}`)
-            .then(res=>{
-                if(res.status === 200 && res.data.code === 0){
-                    dispatch({type:DELETE_STUDENT_INFO_SUCCESS,msg:res.data.msg})
+            .then(res => {
+                if (res.status === 200 && res.data.code === 0) {
+                    dispatch({ type: DELETE_STUDENT_INFO_SUCCESS, msg: res.data.msg })
                     message.success(res.data.msg);
-                }else{
-                    dispatch({type:DELETE_STUDENT_INFO_FAIL,msg:res.data.msg})
+                } else {
+                    dispatch({ type: DELETE_STUDENT_INFO_FAIL, msg: res.data.msg })
                     message.error(res.data.msg);
                 }
             })
@@ -102,14 +108,14 @@ export function deleteStudentArchive(loadKey){
 
 export function loadRegistedUserInfo(loadKey) {
     return dispatch => {
-        NProgress.start();        
+        NProgress.start();
         dispatch(loading(LOADING, true))
         Axios.get(`/admin/loadRegistedUserInfo?key=${loadKey ? loadKey : ''}`)
             .then(res => {
-                NProgress.done();                
+                NProgress.done();
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(success(LOAD_DATA_SUCCESS, res.data.data))
-                    dispatch({type:FIND_MAX_ID,maxID:findMaxId(res.data.data)});                    
+                    dispatch({ type: FIND_MAX_ID, maxID: findMaxId(res.data.data) });
                 } else {
                     dispatch(fail(LOAD_DATA_FAIL, res.data.msg));
                 }
@@ -119,11 +125,11 @@ export function loadRegistedUserInfo(loadKey) {
 
 export function deleteRegisterUser(userId) {
     return dispatch => {
-        NProgress.start();                
+        NProgress.start();
         dispatch(loading(LOADING, true))
         Axios.delete(`/admin/deleteRegisteredUser?key=${userId ? userId : ''}`)
             .then(res => {
-                NProgress.done();                                
+                NProgress.done();
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(success(DELETE_DATA_SUCCESS, res.data.data))
                 } else {
@@ -135,17 +141,17 @@ export function deleteRegisterUser(userId) {
 
 export function loadGradeInfo(loadKey) {
     return (dispatch) => {
-        NProgress.start();                        
+        NProgress.start();
         dispatch(loading(LOADING, true))
         Axios.get(`/admin/loadGradeInfo?key=${loadKey ? loadKey : ''}`)
             .then(res => {
-                NProgress.done();                                                
+                NProgress.done();
                 if (res.status === 200 && res.data.code === 0) {
-                    const data = res.data.data;                    
-                    if(data.studentName){
-                        dispatch({type:LOAD_DATA_SUCCESS, payload:data.data,msg:data.msg})
-                    }else{
-                        dispatch({type:LOAD_DATA_SUCCESS, payload:data})                        
+                    const data = res.data.data;
+                    if (data.studentName) {
+                        dispatch({ type: LOAD_SPECIFIC_STUDENT_GRADE_SUCCESS, payload: data.data, studentName: data.studentName })
+                    } else {
+                        dispatch({ type: LOAD_SPECIFIC_STUDENT_GRADE_FAIL, payload: data })
                     }
                 } else {
                     dispatch(fail(LOAD_DATA_FAIL, res.data.msg));
@@ -156,11 +162,11 @@ export function loadGradeInfo(loadKey) {
 
 export function deleteGrade(courseID) {
     return dispatch => {
-        NProgress.start();                                
+        NProgress.start();
         dispatch(loading(LOADING, true))
         Axios.delete(`/admin/deleteGradeInfo?key=${courseID ? courseID : ''}`)
             .then(res => {
-                NProgress.done();                                                                
+                NProgress.done();
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(success(LOAD_DATA_SUCCESS, res.data.data))
                 } else {
@@ -172,11 +178,11 @@ export function deleteGrade(courseID) {
 
 export function loadPunishInfo(loadKey) {
     return dispatch => {
-        NProgress.start();                                        
+        NProgress.start();
         dispatch(loading(LOADING, true))
         Axios.get(`/admin/loadPunishInfo?key=${loadKey ? loadKey : ''}`)
             .then(res => {
-                NProgress.done();                                                                                
+                NProgress.done();
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(success(LOAD_DATA_SUCCESS, res.data.data))
                 } else {
@@ -188,11 +194,11 @@ export function loadPunishInfo(loadKey) {
 
 export function deletePunishInfo(loadKey) {
     return dispatch => {
-        NProgress.start();                                                
+        NProgress.start();
         dispatch(loading(LOADING, true))
         Axios.delete(`/admin/deletePunishInfo?key=${loadKey ? loadKey : ''}`)
             .then(res => {
-                NProgress.done();                                                                                                
+                NProgress.done();
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(success(LOAD_DATA_SUCCESS, res.data.data))
                 } else {
@@ -204,11 +210,11 @@ export function deletePunishInfo(loadKey) {
 
 export function loadTeacherInfo(loadKey) {
     return dispatch => {
-        NProgress.start();                                                        
+        NProgress.start();
         dispatch(loading(LOADING, true))
         Axios.get(`/admin/loadTeacherInfo?key=${loadKey ? loadKey : ''}`)
             .then(res => {
-                NProgress.done();                                                                                                                
+                NProgress.done();
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(success(LOAD_DATA_SUCCESS, res.data.data))
                 } else {
@@ -220,11 +226,11 @@ export function loadTeacherInfo(loadKey) {
 
 export function deleteTecherInfo(loadKey) {
     return dispatch => {
-        NProgress.start();                                                                
+        NProgress.start();
         dispatch(loading(LOADING, true))
         Axios.delete(`/admin/deleteTeacherInfo?key=${loadKey ? loadKey : ''}`)
             .then(res => {
-                NProgress.done();                                                                                                                                
+                NProgress.done();
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(success(LOAD_DATA_SUCCESS, res.data.data))
                 } else {
@@ -234,18 +240,18 @@ export function deleteTecherInfo(loadKey) {
     }
 }
 
-export function addNewUser(data){
-    return dispatch =>{
-        NProgress.start();                                                                        
-        dispatch(loading(LOADING, true))        
-        Axios.post('/admin/addNewUser',{data})
-            .then(res=>{
-                NProgress.done();                                                                                                                                                
-                if(res.status === 200 && res.data.code === 0){
-                    dispatch({type:ADD_NEW_USER_SUCCESS,payload:res.data.data})
+export function addNewUser(data) {
+    return dispatch => {
+        NProgress.start();
+        dispatch(loading(LOADING, true))
+        Axios.post('/admin/addNewUser', { data })
+            .then(res => {
+                NProgress.done();
+                if (res.status === 200 && res.data.code === 0) {
+                    dispatch({ type: ADD_NEW_USER_SUCCESS, payload: res.data.data })
                     message.success('添加成功!');
-                }else{
-                    dispatch({type:ADD_NEW_USER_FAIL,msg:res.data.msg});
+                } else {
+                    dispatch({ type: ADD_NEW_USER_FAIL, msg: res.data.msg });
                     message.error(res.data.msg);
                 }
             })
