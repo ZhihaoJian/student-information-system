@@ -150,7 +150,13 @@ class Archive extends React.Component {
                             {getFieldDecorator('class', {
                                 initialValue: data[0].class
                             })(
-                                <Input placeholder='请如实填写您的班级' />
+                                <Select>
+                                    <Option value="商业软件1班">商业软件1班</Option>
+                                    <Option value="外语1班">外语1班</Option>
+                                    <Option value="金融2班">金融2班</Option>
+                                    <Option value="国贸3班">国贸3班</Option>
+                                    <Option value="法律1班">法律1班</Option>
+                                </Select>
                             )}
                         </FormItem>
                         <FormItem label='入学年份' {...formItemLayout}  >

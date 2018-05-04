@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 mongoose.connect('mongodb://localhost:27017/graduation')
 
 const loginSchema = new Schema({
-    id:String,
-    name:String,
+    id: String,
+    name: String,
     password: String,
     role: String,
     createTime: { type: String, default: Date.now }
@@ -26,6 +26,14 @@ const gradeSchema = new Schema({
     studentID: String
 })
 
+const courseSchma = new Schema({
+    courseID: { type: String, required: true },
+    courseName: { type: String, required: true },
+    point: { type: Number, required: true, min: 1, max: 5 },
+    major: { type: String, required: true },
+    courseType: { type: String, required: true }
+})
+
 const studentArchiveSchema = new Schema({
     name: String,
     studentID: { type: String, required: true },
@@ -34,11 +42,11 @@ const studentArchiveSchema = new Schema({
     tel: String,
     gender: String,
     class: String,
-    idCardNumber:String,
-    origin:String,
-    address:String,
-    birthday:Date,
-    education:String,
+    idCardNumber: String,
+    origin: String,
+    address: String,
+    birthday: Date,
+    education: String,
     enterYear: { type: Date, default: Date.now, required: true },
     familyInfo: { type: String, default: '无' },
     awardInfo: { type: String, default: '无' },
@@ -53,7 +61,7 @@ const studentArchiveSchema = new Schema({
 const punishSchema = new Schema({
     name: String,
     studentID: String,
-    punishDate: {type:Date,default:Date.now},
+    punishDate: { type: Date, default: Date.now },
     punishDetail: String,
     punishResult: String
 })
@@ -73,6 +81,7 @@ const studentArchiveIns = mongoose.model('studentArchive', studentArchiveSchema)
 const gradeIns = mongoose.model('grade', gradeSchema);
 const informationIns = mongoose.model('information', infomationSchema);
 const loginIns = mongoose.model('login', loginSchema);
+const courseIns = mongoose.model('course', courseSchma);
 
 module.exports = {
     teacherIns,
@@ -80,5 +89,6 @@ module.exports = {
     studentArchiveIns,
     gradeIns,
     informationIns,
-    loginIns
+    loginIns,
+    courseIns
 }

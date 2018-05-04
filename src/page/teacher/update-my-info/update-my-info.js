@@ -91,11 +91,8 @@ class UpdateMyInfo extends React.Component{
                                     <Option value="投资学专业">投资学专业</Option>                                   
                                     <Option value="德语专业（涉外翻译方向）">德语专业（涉外翻译方向）</Option>                                   
                                     <Option value="德语专业（国际经济与贸易方向）">德语专业（国际经济与贸易方向）</Option>                                   
-                                    <Option value="德语专业（国际经济与贸易方向）">德语专业（国际经济与贸易方向）</Option>                                   
                                     <Option value="日语专业（国际经济与贸易方向）">日语专业（国际经济与贸易方向）</Option>                                   
                                     <Option value="英语专业（涉外翻译方向）">英语专业（涉外翻译方向）</Option>                                   
-                                    <Option value="英语专业（涉外翻译方向）">英语专业（涉外翻译方向）</Option>                                   
-                                    <Option value="商务英语专业（国际经济与贸易方向）">商务英语专业（国际经济与贸易方向）</Option>                                   
                                     <Option value="商务英语专业（国际经济与贸易方向）">商务英语专业（国际经济与贸易方向）</Option>                                   
                                     <Option value="英语（“3+1”中英学分互认国际班）">英语（“3+1”中英学分互认国际班）</Option>                                   
                                 </Select>

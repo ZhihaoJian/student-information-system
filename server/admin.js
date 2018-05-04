@@ -1,11 +1,13 @@
 const express = require('express');
 const Router = express.Router();
+const md5 = require('md5');
+const { Base64 } = require('js-base64');
 const { studentArchiveIns,
     loginIns,
     gradeIns,
     punishIns,
     teacherIns,
-    informationIns
+    informationIns,
 } = require('./db');
 
 Router.get('/loadStudentArchive', (req, res) => {
@@ -194,14 +196,14 @@ Router.post('/updatePwd', (req, res) => {
         if (newPwd !== confirmPwd) {
             return res.json({ code: 1, msg: "两次输入密码不一致 " });
         }
-        if (doc.password === oldPwd) {
-            doc.password = newPwd;
+        let encodeOldPWD = Base64.encode(md5(oldPwd));
+        if (doc.password === encodeOldPWD) {
+            doc.password = Base64.encode(md5(newPwd));
             doc.save((err) => {
                 if (err) {
                     console.log(err)
                     return res.json({ code: 1, msg: '修改失败' })
                 } else {
-                    console.log('update pwd completed');
                     return res.json({ code: 0, msg: '修改成功' })
                 }
             })
@@ -222,7 +224,8 @@ Router.post('/publishInfo', (req, res) => {
 
 Router.post('/addNewUser', (req, res) => {
     const data = req.body.data;
-    loginIns.create(data, (err, newUser) => {
+    //先md5再base64
+    loginIns.create({ ...data, password: Base64.encode(md5(data.password)) }, (err, newUser) => {
         const role = newUser.role,
             id = newUser.id;
         if (err) {
