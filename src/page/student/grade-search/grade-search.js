@@ -1,32 +1,32 @@
 import React from 'react';
-import {Breadcrumb,Table,Input,Col,Row} from 'antd';
-import {connect} from 'react-redux';
-import {loadGradeInfo,reset,searchGradeInfo} from '../../../redux/student/loadData.redux';
+import { Breadcrumb, Table, Input, Col, Row } from 'antd';
+import { connect } from 'react-redux';
+import { loadGradeInfo, reset, searchGradeInfo } from '../../../redux/student/loadData.redux';
 const Search = Input.Search;
 
 @connect(
-    state=>state.studentReducers,
-    {loadGradeInfo,reset,searchGradeInfo}
+    state => state.studentReducers,
+    { loadGradeInfo, reset, searchGradeInfo }
 )
-class GradeSearch extends React.Component{
+class GradeSearch extends React.Component {
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.loadGradeInfo();
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.props.reset();
     }
 
-    handleSearch(value){
-        if(value){
+    handleSearch(value) {
+        if (value) {
             this.props.searchGradeInfo(value);
-        }else{
+        } else {
             this.props.loadGradeInfo();
         }
     }
 
-    render(){
+    render() {
 
         const columns = [
             {
@@ -74,13 +74,13 @@ class GradeSearch extends React.Component{
         ]
 
 
-        return(
+        return (
             <div>
                 <Breadcrumb >
                     <Breadcrumb.Item>首页</Breadcrumb.Item>
                     <Breadcrumb.Item>成绩查询</Breadcrumb.Item>
                 </Breadcrumb>
-                <Row style={{ margin: '20px 0' }} >
+                {/* <Row style={{ margin: '20px 0' }} >
                     <Col span={6}>
                         <Search
                             className='search-input'
@@ -88,14 +88,17 @@ class GradeSearch extends React.Component{
                             onSearch={value => this.handleSearch(value)}
                         />
                     </Col>
-                </Row>
-                <Table
-                    bordered
-                    loading={this.props.loading}
-                    rowKey={'_id'}
-                    columns={columns}
-                    dataSource={this.props.data}
-                />
+                </Row> */}
+                <div style={{ marginTop: '20px' }} >
+                    <Table
+                        bordered
+                        loading={this.props.loading}
+                        rowKey={'_id'}
+                        columns={columns}
+                        dataSource={this.props.data}
+                    />
+
+                </div>
             </div>
         )
     }
