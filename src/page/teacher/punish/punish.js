@@ -29,30 +29,30 @@ class PunishManage extends React.Component {
         this.props.resetReducersState();
     }
 
-    handleVisible(id) {
-        this.setState({
-            visible: true,
-            data: this.props.data.filter(item => item._id === id)
-        })
-    }
+    // handleVisible(id) {
+    //     this.setState({
+    //         visible: true,
+    //         data: this.props.data.filter(item => item._id === id)
+    //     })
+    // }
 
-    handleDeletePunishment(id) {
-        this.props.deletePunishInfo(id);
-    }
+    // handleDeletePunishment(id) {
+    //     this.props.deletePunishInfo(id);
+    // }
 
-    handleUpdate(visible, newData) {
-        this.setState({
-            visible
-        });
-        this.props.updatePunishInfo(newData);
-    }
+    // handleUpdate(visible, newData) {
+    //     this.setState({
+    //         visible
+    //     });
+    //     this.props.updatePunishInfo(newData);
+    // }
 
-    handleAddPunish(visible, newData) {
-        this.setState({
-            addPunishmentVisible: visible
-        });
-        this.props.addPunishInfo(newData);
-    }
+    // handleAddPunish(visible, newData) {
+    //     this.setState({
+    //         addPunishmentVisible: visible
+    //     });
+    //     this.props.addPunishInfo(newData);
+    // }
 
 
     handleSearch(value) {
@@ -96,22 +96,22 @@ class PunishManage extends React.Component {
                 key: 'punishResult',
                 align: 'center'
             },
-            {
-                title: '操作',
-                dataIndex: 'opera',
-                align: 'center',
-                key: 'opera',
-                render: (text, record) => {
-                    return (
-                        <span>
-                            <a style={{ marginRight: 10 }} onClick={this.handleVisible.bind(this, record._id)} >修改</a>
-                            <Popconfirm title="确定要删除该处分?" onConfirm={this.handleDeletePunishment.bind(this, record.studentID)}>
-                                <a >删除</a>
-                            </Popconfirm>
-                        </span>
-                    )
-                }
-            }
+            // {
+            //     title: '操作',
+            //     dataIndex: 'opera',
+            //     align: 'center',
+            //     key: 'opera',
+            //     render: (text, record) => {
+            //         return (
+            //             <span>
+            //                 <a style={{ marginRight: 10 }} onClick={this.handleVisible.bind(this, record._id)} >修改</a>
+            //                 <Popconfirm title="确定要删除该处分?" onConfirm={this.handleDeletePunishment.bind(this, record.studentID)}>
+            //                     <a >删除</a>
+            //                 </Popconfirm>
+            //             </span>
+            //         )
+            //     }
+            // }
         ]
 
 
@@ -132,13 +132,13 @@ class PunishManage extends React.Component {
                             onSearch={value => this.handleSearch(value)}
                         />
                     </Col>
-                    <Col span={2} offset={16}>
+                    {/* <Col span={2} offset={16}>
                         <Button
                             type='primary'
                             style={{ float: 'right', overflow: 'hidden' }}
                             onClick={() => this.setState({ addPunishmentVisible: true })} >新增处分
                         </Button>
-                    </Col>
+                    </Col> */}
                 </Row>
                 <Table
                     bordered
@@ -147,7 +147,7 @@ class PunishManage extends React.Component {
                     columns={columns}
                     dataSource={this.props.data}
                 />
-                <UpdateModal
+                {/* <UpdateModal
                     visible={this.state.visible}
                     data={this.state.data}
                     handleCancel={visible => this.setState({ visible })}
@@ -157,7 +157,7 @@ class PunishManage extends React.Component {
                     visible={this.state.addPunishmentVisible}
                     handleOk={(visible, newData) => this.handleAddPunish(visible, newData)}
                     handleCancel={visible => this.setState({ addPunishmentVisible: visible })}
-                />
+                /> */}
             </div>
         )
     }
