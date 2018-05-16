@@ -24,7 +24,10 @@ Router.get('/loadStudentArchive', (req, res) => {
 
 Router.get('/loadRegistedUserInfo', (req, res) => {
     const searchKey = req.query.key;
-    const filter = searchKey ? { name: searchKey } : {};
+    let filter = {};
+    if (searchKey) {
+        filter = { $or: [{ id: searchKey }, { name: searchKey }, { password: searchKey }, { role: searchKey }, { createTime: searchKey }] }
+    }
     loginIns.find(filter, (err, doc) => {
         if (err) {
             return res.json({ code: 1, msg: '后端出错了' });
@@ -106,6 +109,7 @@ Router.get('/loadGradeInfo', (req, res) => {
                     if (err) {
                         return res.json({ code: 1, msg: '后端出错了' })
                     } else if (!newDoc) {
+                        console.log('!newdoc', newDoc);
                         return res.json({ code: 1, msg: '不存在用户' })
                     } else {
                         const newData = { data: doc, studentName: newDoc.realName }

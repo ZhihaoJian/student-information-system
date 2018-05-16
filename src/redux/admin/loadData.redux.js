@@ -14,6 +14,7 @@ const DELETE_STUDENT_INFO_SUCCESS = 'DELETE_STUDENT_INFO_SUCCESS';
 const DELETE_STUDENT_INFO_FAIL = 'DELETE_STUDENT_INFO_FAIL';
 const LOAD_SPECIFIC_STUDENT_GRADE_SUCCESS = 'LOAD_SPECIFIC_STUDENT_GRADE_SUCCESS';
 const LOAD_SPECIFIC_STUDENT_GRADE_FAIL = 'LOAD_SPECIFIC_STUDENT_GRADE_FAIL';
+const RESET = 'RESET';
 const initState = {
     data: [],
     msg: '',
@@ -32,7 +33,7 @@ export function loadData(state = initState, action) {
         case DELETE_DATA_FAIL:
         case DELETE_STUDENT_INFO_FAIL:
         case ADD_NEW_USER_FAIL:
-            return { ...state, msg: action.msg, loading: false }
+            return { ...state, msg: action.msg, loading: false, data: [] }
         case DELETE_DATA_SUCCESS:
             return { ...state, data: action.payload, loading: false }
         case LOADING:
@@ -43,9 +44,15 @@ export function loadData(state = initState, action) {
             return { ...state, data: action.payload, loading: false, studentName: action.studentName }
         case LOAD_SPECIFIC_STUDENT_GRADE_FAIL:
             return { ...state, msg: action.msg, data: action.payload, loading: false }
+        case RESET:
+            return { ...initState }
         default:
             return state;
     }
+}
+
+export function reset() {
+    return dispatch => dispatch({ type: RESET })
 }
 
 function success(type, data) {
@@ -113,6 +120,7 @@ export function loadRegistedUserInfo(loadKey) {
         Axios.get(`/admin/loadRegistedUserInfo?key=${loadKey ? loadKey : ''}`)
             .then(res => {
                 NProgress.done();
+                dispatch(loading(LOADING, false))
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(success(LOAD_DATA_SUCCESS, res.data.data))
                     dispatch({ type: FIND_MAX_ID, maxID: findMaxId(res.data.data) });
@@ -130,6 +138,7 @@ export function deleteRegisterUser(userId) {
         Axios.delete(`/admin/deleteRegisteredUser?key=${userId ? userId : ''}`)
             .then(res => {
                 NProgress.done();
+                dispatch(loading(LOADING, false))
                 if (res.status === 200 && res.data.code === 0) {
                     dispatch(success(DELETE_DATA_SUCCESS, res.data.data))
                 } else {
@@ -154,7 +163,8 @@ export function loadGradeInfo(loadKey) {
                         dispatch({ type: LOAD_SPECIFIC_STUDENT_GRADE_FAIL, payload: data })
                     }
                 } else {
-                    dispatch(fail(LOAD_DATA_FAIL, res.data.msg));
+                    dispatch({ type: LOAD_DATA_FAIL, msg: res.data.msg, payload: [] })
+                    // dispatch(fail(LOAD_DATA_FAIL, res.data.msg));
                 }
             })
     }

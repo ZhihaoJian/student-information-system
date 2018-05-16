@@ -1,66 +1,79 @@
 import React from 'react';
-import {Breadcrumb,Table,Popconfirm,Row,Input,Col,Button} from 'antd';
-import {connect} from 'react-redux';
+import { Breadcrumb, Table, Popconfirm, Row, Input, Col, Button } from 'antd';
+import { connect } from 'react-redux';
 import UpdateModal from './update-modal/update-modal';
 import AddGradeModal from './add-grade-modal/add-grade-modal';
-import {loadGradeInfo,deleteGrade,doUpdateGrade,addGrade,resetReducersState} from '../../../redux/teacher/loadData.redux';
+import { loadGradeInfo, deleteGrade, doUpdateGrade, addGrade, resetReducersState } from '../../../redux/teacher/loadData.redux';
 import './grade-manage.scss';
 const Search = Input.Search;
 
 @connect(
-    state=>state.teacherReducers,
-    {loadGradeInfo,deleteGrade,doUpdateGrade,addGrade,resetReducersState}
+    state => state.teacherReducers,
+    { loadGradeInfo, deleteGrade, doUpdateGrade, addGrade, resetReducersState }
 )
-class GradeManage extends React.Component{
+class GradeManage extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            visible:false,
-            addGradeVisible:false,
-            data:[],
-            keyword:''
+            visible: false,
+            addGradeVisible: false,
+            data: [],
+            keyword: ''
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.loadGradeInfo();
     }
 
-    componentWillUnmount(){
+    componentWillUnmount() {
         this.props.resetReducersState();
     }
 
     handleDeleteGrade(id) {
         this.props.deleteGrade(id);
-        this.props.loadGradeInfo();                
+        this.props.loadGradeInfo();
     }
 
-    handleSearch(value){
-        this.setState({keyword:value});
-        this.props.loadGradeInfo(value);        
+    handleSearch(value) {
+        this.setState({ keyword: value });
+        this.props.loadGradeInfo(value);
     }
 
-    handleVisible(id){
+    handleVisible(id) {
         this.setState({
-            visible:true,
-            data:this.props.data.filter(item=>item._id === id)
+            visible: true,
+            data: this.props.data.filter(item => item._id === id)
         })
     }
 
-    handleUpdate(visible,newData){
-        this.setState({visible});
+    handleUpdate(visible, newData) {
+        this.setState({ visible });
         this.props.doUpdateGrade(newData);
-        this.props.loadGradeInfo();        
+        this.props.loadGradeInfo();
     }
 
-    handleAddGrade(visible,data){
-        this.setState({addGradeVisible:false});
+    handleAddGrade(visible, data) {
+        this.setState({ addGradeVisible: false });
         this.props.addGrade(data);
         this.props.loadGradeInfo();
     }
 
-    render(){
+    renderSearchResult = () => {
+        if (!this.props.msg) {
+            return (
+                <React.Fragment>
+                    <p>学号：{this.state.keyword}</p>
+                    <p>姓名：{this.props.studentName}</p>
+                </React.Fragment>
+            )
+        } else {
+            return (<p>暂无学号 ：{this.state.keyword}  的相关信息</p>)
+        }
+    }
+
+    render() {
 
         const columns = [
             {
@@ -113,7 +126,7 @@ class GradeManage extends React.Component{
                 render: (text, record) => {
                     return (
                         <span>
-                            <a style={{marginRight:10}} onClick={this.handleVisible.bind(this,record._id)} >修改</a>
+                            <a style={{ marginRight: 10 }} onClick={this.handleVisible.bind(this, record._id)} >修改</a>
                             <Popconfirm title="确定要删除当前成绩?" onConfirm={this.handleDeleteGrade.bind(this, record._id)} okText="确定" cancelText="不">
                                 <a >删除</a>
                             </Popconfirm>
@@ -162,7 +175,7 @@ class GradeManage extends React.Component{
                 render: (text, record) => {
                     return (
                         <span>
-                            <a style={{marginRight:10}} onClick={this.handleVisible.bind(this,record._id)} >修改</a>
+                            <a style={{ marginRight: 10 }} onClick={this.handleVisible.bind(this, record._id)} >修改</a>
                             <Popconfirm title="确定要删除当前成绩?" onConfirm={this.handleDeleteGrade.bind(this, record._id)} okText="确定" cancelText="不">
                                 <a >删除</a>
                             </Popconfirm>
@@ -173,7 +186,7 @@ class GradeManage extends React.Component{
         ]
 
 
-        return(
+        return (
             <div className='grade-manage__wrapper' >
                 <Row>
                     <Col span={24}>
@@ -192,38 +205,33 @@ class GradeManage extends React.Component{
                         />
                     </Col>
                     <Col span={2} offset={16}>
-                        <Button 
-                            type='primary' 
-                            style={{float:'right',overflow:'hidden'}}
-                            onClick={()=>this.setState({addGradeVisible:true})} >新增成绩
+                        <Button
+                            type='primary'
+                            style={{ float: 'right', overflow: 'hidden' }}
+                            onClick={() => this.setState({ addGradeVisible: true })} >新增成绩
                         </Button>
                     </Col>
                 </Row>
                 {
-                    this.state.keyword ? (
-                        <React.Fragment>
-                            <p>学号：{this.state.keyword}</p>
-                            <p>姓名：{this.props.studentName}</p>
-                        </React.Fragment>
-                    ):null
+                    this.state.keyword ? this.renderSearchResult() : null
                 }
                 <Table
                     bordered
                     loading={this.props.loading}
                     rowKey={'_id'}
-                    columns={!!this.state.keyword ? searchedColumns : columns }
+                    columns={!!this.state.keyword ? searchedColumns : columns}
                     dataSource={this.props.data}
                 />
-                <UpdateModal 
+                <UpdateModal
                     visible={this.state.visible}
-                    handleOk={(visible,newData)=>this.handleUpdate(visible,newData)}
-                    handleCancel={(visible)=>this.setState({visible})}
+                    handleOk={(visible, newData) => this.handleUpdate(visible, newData)}
+                    handleCancel={(visible) => this.setState({ visible })}
                     data={this.state.data}
                 />
                 <AddGradeModal
                     visible={this.state.addGradeVisible}
-                    handleOk={(visible,newData)=>this.handleAddGrade(visible,newData)}
-                    handleCancel={(visible)=>this.setState({addGradeVisible:visible})}
+                    handleOk={(visible, newData) => this.handleAddGrade(visible, newData)}
+                    handleCancel={(visible) => this.setState({ addGradeVisible: visible })}
                 />
             </div>
         )

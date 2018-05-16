@@ -7,7 +7,7 @@ import storage from 'redux-persist/lib/storage';
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist:['loadData','updatePwdReducer','publishInfoReducer','teacherReducers','uploadReducers']
+    blacklist: ['loadData', 'updatePwdReducer', 'publishInfoReducer', 'teacherReducers', 'uploadReducers']
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)

@@ -61,4 +61,20 @@ Router.delete('/deleteCourse', (req, res) => {
     })
 })
 
+Router.put('/updateCourse', (req, res) => {
+    const data = req.body.data;
+    courseIns.findOneAndUpdate({ courseID: data.courseID }, { $set: data }, (err, doc) => {
+        if (err) {
+            return res.json({ code: 1, msg: '后端出错了' });
+        }
+        courseIns.find({}, (err, newDoc) => {
+            if (err) {
+                return res.json({ code: 1, msg: '后端出错了' });
+            }
+            return res.json({ code: 0, data: newDoc })
+        })
+    })
+})
+
+
 module.exports = Router;

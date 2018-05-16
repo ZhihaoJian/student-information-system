@@ -1,21 +1,21 @@
 import React from 'react';
-import { Row, Col, Table, Input, Breadcrumb,Popconfirm } from 'antd';
-import {connect} from 'react-redux';
-import {loadGradeInfo,deleteGrade} from '../../../redux/admin/loadData.redux';
+import { Row, Col, Table, Input, Breadcrumb, Popconfirm } from 'antd';
+import { connect } from 'react-redux';
+import { loadGradeInfo, deleteGrade, reset } from '../../../redux/admin/loadData.redux';
 import './grade-info.scss';
 
 const Search = Input.Search;
 
 @connect(
-    state=>state.loadData,
-    {loadGradeInfo,deleteGrade}
+    state => state.loadData,
+    { loadGradeInfo, deleteGrade, reset }
 )
 class GradeInfo extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            keyword:''
+            keyword: ''
         }
     }
 
@@ -23,13 +23,30 @@ class GradeInfo extends React.Component {
         this.props.deleteGrade(id);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.props.loadGradeInfo();
     }
 
-    handleSearch(value){
-        this.setState({keyword:value});
-        this.props.loadGradeInfo(value);        
+    componentWillUnmount() {
+        this.props.reset();
+    }
+
+    handleSearch(value) {
+        this.setState({ keyword: value });
+        this.props.loadGradeInfo(value);
+    }
+
+    renderSearchResult = () => {
+        if (!this.props.msg) {
+            return (
+                <React.Fragment>
+                    <p>学号：{this.state.keyword}</p>
+                    <p>姓名：{this.props.studentName}</p>
+                </React.Fragment>
+            )
+        } else {
+            return (<p>暂无学号 ：{this.state.keyword}  的相关信息</p>)
+        }
     }
 
     render() {
@@ -162,18 +179,13 @@ class GradeInfo extends React.Component {
                     </Col>
                 </Row>
                 {
-                    this.state.keyword ? (
-                        <React.Fragment>
-                            <p>学号：{this.state.keyword}</p>
-                            <p>姓名：{this.props.studentName}</p>
-                        </React.Fragment>
-                    ):null
+                    this.state.keyword ? this.renderSearchResult() : null
                 }
                 <Table
                     bordered
                     loading={this.props.loading}
                     rowKey={'_id'}
-                    columns={!!this.state.keyword ? searchedColumns : columns }
+                    columns={!!this.state.keyword ? searchedColumns : columns}
                     dataSource={this.props.data}
                 />
             </div>
